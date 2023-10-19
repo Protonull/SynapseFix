@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+issueTrackerURL = "${mod_issues_url}"
+license = "GPLv3"
+
+[[mods]]
+modId = "synapsefix"
+displayName = "SynapseFix"
+version = "${mod_version}"
+description = "${mod_description}"
+displayURL = "${mod_home_url}"
+authors = "Protonull"
+
+[[dependencies.synapsefix]]
+modId = "forge"
+mandatory = true
+versionRange = "[40,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.synapsefix]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minecraft_version},)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.synapsefix]]
+modId = "synapse"
+mandatory = true
+versionRange = "[2.1.0,)"
+ordering = "AFTER"
+side = "CLIENT"

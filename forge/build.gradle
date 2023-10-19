@@ -1,0 +1,86 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    forge {
+        mixinConfig "mixin.synapsefix.json"
+    }
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+}
+
+processResources {
+    filesMatching("META-INF/mods.toml") {
+        expand([
+                "mod_issues_url": rootProject.mod_issues_url,
+
+                "mod_version": rootProject.mod_version,
+                "mod_description": rootProject.mod_description,
+                "mod_home_url": rootProject.mod_home_url,
+
+                "minecraft_version": rootProject.minecraft_version
+        ])
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "forge"
+}
+
+jar {
+    classifier "dev"
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+tasks.register("cleanJar", Delete) {
+    delete fileTree("../dist") {
+        include "*-forge.jar"
+    }
+}
+
+tasks.register("copyJar", Copy) {
+    from remapJar
+    into "../dist"
+}
+
+build.dependsOn copyJar
+copyJar.dependsOn cleanJar
