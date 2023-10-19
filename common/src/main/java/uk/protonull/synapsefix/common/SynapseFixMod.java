@@ -14,4 +14,12 @@ public abstract class SynapseFixMod {
     public static @NotNull SynapseFixMod getInstance() {
         return instance;
     }
+
+    /**
+     * Determines whether a given modId represents a loaded mod; that its classes are available. Users should
+     * nonetheless check that the mod is ready.
+     */
+    public abstract boolean isModAvailable(
+            @NotNull String modId
+    );
 }
