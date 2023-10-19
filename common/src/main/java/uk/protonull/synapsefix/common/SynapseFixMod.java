@@ -1,6 +1,7 @@
 package uk.protonull.synapsefix.common;
 
 import org.jetbrains.annotations.NotNull;
+import uk.protonull.synapsefix.common.hooks.ModPlatform;
 
 public abstract class SynapseFixMod {
     protected SynapseFixMod() {
@@ -22,4 +23,10 @@ public abstract class SynapseFixMod {
     public abstract boolean isModAvailable(
             @NotNull String modId
     );
+
+    /**
+     * Declares which platform this running is on. It's a PITA but necessary requirement since certain mods have
+     * different constants (ಠ_ಠ) based on what platform it's on.
+     */
+    public abstract @NotNull ModPlatform getPlatform();
 }

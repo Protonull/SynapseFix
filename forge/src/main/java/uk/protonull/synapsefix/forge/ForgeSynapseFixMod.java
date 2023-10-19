@@ -4,6 +4,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import uk.protonull.synapsefix.common.SynapseFixMod;
+import uk.protonull.synapsefix.common.hooks.ModPlatform;
 
 @Mod("synapsefix")
 public class ForgeSynapseFixMod extends SynapseFixMod {
@@ -16,5 +17,10 @@ public class ForgeSynapseFixMod extends SynapseFixMod {
             final @NotNull String modId
     ) {
         return ModList.get().isLoaded(modId);
+    }
+
+    @Override
+    public @NotNull ModPlatform getPlatform() {
+        return ModPlatform.FORGE;
     }
 }
