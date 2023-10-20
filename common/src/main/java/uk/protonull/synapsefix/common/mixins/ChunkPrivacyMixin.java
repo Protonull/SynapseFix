@@ -16,7 +16,7 @@ public class ChunkPrivacyMixin {
             final CallbackInfoReturnable<Boolean> cir
     ) {
         if (packet instanceof ClientboundLevelChunkWithLightPacket) {
-            cir.setReturnValue(true);
+            cir.setReturnValue(false); // false, otherwise the packet will be dropped entirely
         }
     }
 }
