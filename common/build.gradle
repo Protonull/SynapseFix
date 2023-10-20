@@ -4,7 +4,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
 	modCompileOnlyApi(files("../libs/synapse-mod.jar")) // Make sure this is the fabric version of the mod
-	modCompileOnlyApi(files("../libs/synapse-remote.jar"))
+	modRuntimeOnly(files("../libs/synapse-remote.jar"))
 }
 
 architectury {

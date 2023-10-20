@@ -1,26 +1,22 @@
 package uk.protonull.synapsefix.common.mixins;
 
-import gjum.minecraft.civ.synapse.features.cartography.Cartography;
+import gjum.minecraft.civ.synapse.common.SynapseMod;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = Cartography.class, remap = false)
+@Mixin(value = SynapseMod.class, remap = false)
 public class ChunkPrivacyMixin {
-    @Inject(method = "handleChunkPacket", at = @At("HEAD"), cancellable = true)
-    public void INJECT_handleChunkPacket(
-            final ClientboundLevelChunkWithLightPacket packet,
-            final CallbackInfo ci
+    @Inject(method = "handlePacketReceiving", at = @At("HEAD"), cancellable = true)
+    public void INJECT_handlePacketReceiving(
+            final Packet<?> packet,
+            final CallbackInfoReturnable<Boolean> cir
     ) {
-        ci.cancel();
-    }
-
-    @Inject(method = "handleTick", at = @At("HEAD"), cancellable = true)
-    public void INJECT_handleTick(
-            final CallbackInfo ci
-    ) {
-        ci.cancel();
+        if (packet instanceof ClientboundLevelChunkWithLightPacket) {
+            cir.setReturnValue(true);
+        }
     }
 }
