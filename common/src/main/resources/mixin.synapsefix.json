@@ -9,6 +9,7 @@
 		"privacy.ChunkPrivacyMixin",
 		"privacy.ScreenshotPrivacyMixin",
 		"privacy.ChatPrivacyMixin",
+		"privacy.RemoteJarPrivacyMixin",
 
 		"SynapseModAccessor"
 	],
