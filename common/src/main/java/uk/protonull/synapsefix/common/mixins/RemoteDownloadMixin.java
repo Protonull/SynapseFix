@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.security.MessageDigest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import uk.protonull.synapsefix.common.utilities.HashUtils;
 
 @Mixin(value = SynapseMod.class, remap = false)
 public abstract class RemoteDownloadMixin {
@@ -95,6 +97,36 @@ public abstract class RemoteDownloadMixin {
         }
         catch (final IOException thrown) {
             logger.warn("Could not save modified remote jar to file!");
+            return;
+        }
+
+        synapseFix$saveRemoteJarHash(modifiedJarBytes);
+    }
+
+    @Unique
+    private static void synapseFix$saveRemoteJarHash(
+            final byte @NotNull [] jarBytes
+    ) {
+        final Logger logger = LoggerFactory.getLogger(RemoteDownloadMixin.class);
+
+        final String jarHash; {
+            final MessageDigest hasher = HashUtils.sha1();
+            hasher.update(jarBytes);
+            jarHash = HashUtils.toHex(hasher);
+        }
+
+        try {
+            FileUtils.writeByteArrayToFile(
+                    Path.of(
+                            Minecraft.getInstance().gameDirectory.getAbsolutePath(),
+                            "Synapse",
+                            "synapse-remote.jar.sha1"
+                    ).toFile(),
+                    jarHash.getBytes(StandardCharsets.UTF_8)
+            );
+        }
+        catch (final IOException thrown) {
+            logger.warn("Could not save remote-jar hash to file!");
             //return;
         }
     }
