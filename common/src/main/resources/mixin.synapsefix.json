@@ -7,7 +7,9 @@
 		"RemoteDownloadMixin",
 		"ChunkPrivacyMixin",
 		"ScreenshotPrivacyMixin",
-		"ChatPrivacyMixin"
+		"ChatPrivacyMixin",
+
+		"SynapseModAccessor"
 	],
 	"client": [],
 	"server": [],
