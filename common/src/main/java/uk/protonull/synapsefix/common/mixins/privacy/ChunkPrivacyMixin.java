@@ -1,4 +1,4 @@
-package uk.protonull.synapsefix.common.mixins;
+package uk.protonull.synapsefix.common.mixins.privacy;
 
 import gjum.minecraft.civ.synapse.common.SynapseMod;
 import net.minecraft.network.protocol.Packet;

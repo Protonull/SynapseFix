@@ -1,4 +1,4 @@
-package uk.protonull.synapsefix.common.mixins;
+package uk.protonull.synapsefix.common.mixins.privacy;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import gjum.minecraft.civ.synapse.common.SynapseMod;
