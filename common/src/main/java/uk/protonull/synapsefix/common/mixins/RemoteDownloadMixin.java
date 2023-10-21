@@ -68,10 +68,10 @@ public abstract class RemoteDownloadMixin {
                 {
                     "schemaVersion": 1,
                     "id": "synapse-remote",
-                    "version": "2",
+                    "version": "%s",
                     "description": "We love remote-code execution!"
                 }
-                """.getBytes(StandardCharsets.UTF_8));
+                """.formatted(SynapseMod.VERSION).getBytes(StandardCharsets.UTF_8));
 
                 zipOutputStream.finish();
             }
