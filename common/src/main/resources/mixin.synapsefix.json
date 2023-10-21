@@ -6,7 +6,8 @@
 	"mixins": [
 		"RemoteDownloadMixin",
 		"ChunkPrivacyMixin",
-		"ScreenshotPrivacyMixin"
+		"ScreenshotPrivacyMixin",
+		"ChatPrivacyMixin"
 	],
 	"client": [],
 	"server": [],
