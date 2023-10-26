@@ -6,12 +6,14 @@
 	"mixins": [
 		"RemoteDownloadMixin",
 
+		"SynapseModAccessor",
+
 		"privacy.ChunkPrivacyMixin",
 		"privacy.ScreenshotPrivacyMixin",
 		"privacy.ChatPrivacyMixin",
 		"privacy.RemoteJarPrivacyMixin",
 
-		"SynapseModAccessor"
+		"illegal.PreventRadarSyncingMixin"
 	],
 	"client": [],
 	"server": [],
