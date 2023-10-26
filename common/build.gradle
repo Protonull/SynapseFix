@@ -3,8 +3,8 @@ dependencies {
 	// Do NOT use other classes from fabric loader
 	modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-	modCompileOnlyApi(files("../libs/synapse-mod.jar")) // Make sure this is the fabric version of the mod
-	modRuntimeOnly(files("../libs/synapse-remote.jar"))
+	modCompileOnlyApi(files("../libs/synapse-mod.jar"))
+	modCompileOnlyApi(files("../libs/synapse-remote.jar"))
 }
 
 architectury {
