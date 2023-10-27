@@ -1,10 +1,18 @@
 package uk.protonull.synapsefix.common.utilities;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Clock;
+import java.time.ZonedDateTime;
 import java.util.HexFormat;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * This is a utility class specifically intended for small, miscellaneous utilities.
@@ -34,5 +42,26 @@ public final class Shortcuts {
             final @NotNull String value
     ) {
         return pattern.matcher(value).matches();
+    }
+
+    /**
+     * Gets a file's string content, returning null if the file does not exist.
+     */
+    public static @Nullable String getFileAsString(
+            final @NotNull File file
+    ) throws IOException {
+        try {
+            return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        }
+        catch (final FileNotFoundException ignored) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns an instance of Java's new fancy date/time interfaces, aligned to UTC.
+     */
+    public static @NotNull ZonedDateTime now() {
+        return ZonedDateTime.now(Clock.systemUTC());
     }
 }

@@ -4,16 +4,16 @@
 	"package": "uk.protonull.synapsefix.common.mixins",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"RemoteDownloadMixin",
-
 		"SynapseModAccessor",
 
-		"privacy.ChunkPrivacyMixin",
-		"privacy.ScreenshotPrivacyMixin",
-		"privacy.ChatPrivacyMixin",
-		"privacy.RemoteJarPrivacyMixin",
+		"illegal.PreventRadarSyncingMixin",
 
-		"illegal.PreventRadarSyncingMixin"
+		"privacy.ChatPrivacyMixin",
+		"privacy.ChunkPrivacyMixin",
+		"privacy.RemoteJarPrivacyMixin",
+		"privacy.ScreenshotPrivacyMixin",
+
+		"transparency.RemoteDownloadMixin"
 	],
 	"client": [],
 	"server": [],

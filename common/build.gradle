@@ -5,6 +5,8 @@ dependencies {
 
 	modCompileOnlyApi(files("../libs/synapse-mod.jar"))
 	modCompileOnlyApi(files("../libs/synapse-remote.jar"))
+
+	compileOnlyApi("org.benf:cfr:0.152")
 }
 
 architectury {
