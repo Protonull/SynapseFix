@@ -47,7 +47,7 @@ public abstract class RemoteDownloadMixin {
         final File lastKnownRemoteJarHashFile = new File(synapseDir, "synapse-remote.jar.sha1");
         final String lastKnownRemoteJarHash;
         try {
-            lastKnownRemoteJarHash = Shortcuts.getFileAsString(lastKnownRemoteJarHashFile);
+            lastKnownRemoteJarHash = Shortcuts.readStringFromFile(lastKnownRemoteJarHashFile);
         }
         catch (final IOException thrown) {
             return RemoteDownloadTasks.newThrowImmediatelyInputStream(new IOException(
@@ -66,6 +66,20 @@ public abstract class RemoteDownloadMixin {
             catch (final IOException thrown) {
                 return RemoteDownloadTasks.newThrowImmediatelyInputStream(new IOException(
                         "Could not save remote jar to '" + remoteJarFile.getAbsolutePath() + "'!",
+                        thrown
+                ));
+            }
+
+            // Re[set] the last known hash
+            try {
+                Shortcuts.writeStringToFile(
+                        lastKnownRemoteJarHashFile,
+                        remoteJarHash
+                );
+            }
+            catch (final IOException thrown) {
+                return RemoteDownloadTasks.newThrowImmediatelyInputStream(new IOException(
+                        "Could not save last known hash to '" + lastKnownRemoteJarHashFile.getAbsolutePath() + "'!",
                         thrown
                 ));
             }

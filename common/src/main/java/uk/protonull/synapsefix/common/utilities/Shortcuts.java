@@ -47,7 +47,7 @@ public final class Shortcuts {
     /**
      * Gets a file's string content, returning null if the file does not exist.
      */
-    public static @Nullable String getFileAsString(
+    public static @Nullable String readStringFromFile(
             final @NotNull File file
     ) throws IOException {
         try {
@@ -56,6 +56,13 @@ public final class Shortcuts {
         catch (final FileNotFoundException ignored) {
             return null;
         }
+    }
+
+    public static void writeStringToFile(
+            final @NotNull File file,
+            final @NotNull String data
+    ) throws IOException {
+        FileUtils.writeStringToFile(file, data, StandardCharsets.UTF_8);
     }
 
     /**
