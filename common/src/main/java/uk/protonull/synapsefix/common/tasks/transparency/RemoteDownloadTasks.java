@@ -116,7 +116,8 @@ public final class RemoteDownloadTasks {
             org.benf.cfr.reader.Main.main(new String[] {
                     inputJar.getAbsolutePath(),
                     "--outputpath", outputFolder.getAbsolutePath(),
-                    "--clobber", "true"
+                    "--clobber", "true",
+                    "--silent", "true"
             });
         }
         catch (final Exception thrown) {
