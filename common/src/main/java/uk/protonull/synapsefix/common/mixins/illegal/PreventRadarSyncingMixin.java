@@ -9,7 +9,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import uk.protonull.synapsefix.common.utilities.ClassUtils;
+import uk.protonull.synapsefix.common.utilities.SynapseIntegrations;
 
 /**
  * Prevents Synapse from sending radar data to Synapse, regardless of config setting.
@@ -20,7 +20,7 @@ public abstract class PreventRadarSyncingMixin {
     public String sf_inject$send(
             final String message
     ) {
-        if (!ClassUtils.isSynapseWebsocket((WebSocketClient) (Object) this)) {
+        if (!SynapseIntegrations.isSynapseWebsocket((WebSocketClient) (Object) this)) {
             return message;
         }
 

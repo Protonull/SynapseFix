@@ -11,23 +11,23 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import uk.protonull.synapsefix.common.utilities.ChatUtils;
+import uk.protonull.synapsefix.common.utilities.Shortcuts;
+import uk.protonull.synapsefix.common.utilities.SynapseIntegrations;
 
 @Mixin(value = SynapseMod.class, remap = false)
 public class ChatPrivacyMixin {
-    /** https://fabricmc.net/wiki/tutorial:mixin_examples#modifying_a_parameter */
     @ModifyVariable(method = "handleChat", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     public Component INJECT_handleChat(
             final Component message
     ) {
         final String chatMessage = message.toString().replaceAll("§.", "");
-        if (ChatUtils.GROUP_CHAT_REGEX.matcher(chatMessage).find()) {
+        if (Shortcuts.matchesRegex(SynapseIntegrations.GROUP_CHAT_REGEX, chatMessage)) {
             return TextComponent.EMPTY;
         }
-        if (ChatUtils.PRIVATE_MESSAGE_REGEX.matcher(chatMessage).find()) {
+        if (Shortcuts.matchesRegex(SynapseIntegrations.PRIVATE_MESSAGE_REGEX, chatMessage)) {
             return TextComponent.EMPTY;
         }
-        if (ChatUtils.LOCAL_CHAT_REGEX.matcher(chatMessage).find()) {
+        if (Shortcuts.matchesRegex(SynapseIntegrations.LOCAL_CHAT_REGEX, chatMessage)) {
             // TODO: Maybe allow a de-content'd message so that Synapse can
             //       alert of nearby baddies when they speak in local.
             return TextComponent.EMPTY;

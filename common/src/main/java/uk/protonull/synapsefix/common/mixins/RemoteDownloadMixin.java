@@ -20,11 +20,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import uk.protonull.synapsefix.common.utilities.HashUtils;
+import uk.protonull.synapsefix.common.utilities.Shortcuts;
 
 @Mixin(value = SynapseMod.class, remap = false)
 public abstract class RemoteDownloadMixin {
-    /** https://fabricmc.net/wiki/tutorial:mixin_examples#modifying_a_parameter */
     @ModifyVariable(method = "installUpdate", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private InputStream INJECT_installUpdate(
             final InputStream inputStream
@@ -110,9 +109,9 @@ public abstract class RemoteDownloadMixin {
         final Logger logger = LoggerFactory.getLogger(RemoteDownloadMixin.class);
 
         final String jarHash; {
-            final MessageDigest hasher = HashUtils.sha1();
+            final MessageDigest hasher = Shortcuts.sha1();
             hasher.update(jarBytes);
-            jarHash = HashUtils.toHex(hasher);
+            jarHash = Shortcuts.toHexString(hasher.digest());
         }
 
         try {
