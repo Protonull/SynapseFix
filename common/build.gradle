@@ -7,6 +7,9 @@ dependencies {
 	modCompileOnlyApi(files("../libs/synapse-remote.jar"))
 
 	compileOnlyApi("org.benf:cfr:0.152")
+
+	// https://modrinth.com/mod/voxelmap-updated/version/1.18.2-1.11.2 (1.11.2 fabric)
+	modCompileOnly "maven.modrinth:voxelmap-updated:SDVTG1wT"
 }
 
 architectury {

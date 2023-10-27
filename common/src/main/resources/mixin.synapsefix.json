@@ -6,6 +6,8 @@
 	"mixins": [
 		"SynapseModAccessor",
 
+		"fixup.VoxelMapWaypointCleanupMixin",
+
 		"illegal.PreventRadarSyncingMixin",
 
 		"privacy.ChatPrivacyMixin",
