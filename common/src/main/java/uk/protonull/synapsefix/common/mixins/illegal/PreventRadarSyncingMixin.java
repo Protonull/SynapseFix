@@ -1,10 +1,12 @@
 package uk.protonull.synapsefix.common.mixins.illegal;
 
 import com.google.common.collect.Iterables;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.User;
+import net.minecraft.client.player.LocalPlayer;
 import org.java_websocket.client.WebSocketClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,10 +16,18 @@ import uk.protonull.synapsefix.common.utilities.SynapseIntegrations;
 /**
  * Prevents Synapse from sending radar data to Synapse, regardless of config setting.
  */
-@Mixin(value = WebSocketClient.class, remap = false)
+@Mixin(
+        value = WebSocketClient.class,
+        remap = false
+)
 public abstract class PreventRadarSyncingMixin {
-    @ModifyVariable(method = "send(Ljava/lang/String;)V", at = @At("HEAD"), argsOnly = true, remap = false)
-    public String sf_inject$send(
+    @ModifyVariable(
+            method = "send(Ljava/lang/String;)V",
+            at = @At("HEAD"),
+            argsOnly = true,
+            remap = false
+    )
+    public String sf$send(
             final String message
     ) {
         if (!SynapseIntegrations.isSynapseWebsocket((WebSocketClient) (Object) this)) {
@@ -30,9 +40,14 @@ public abstract class PreventRadarSyncingMixin {
         }
 
         final String playerName, playerUuid; {
-            final User user = Minecraft.getInstance().getUser();
-            playerName = user.getName();
-            playerUuid = user.getUuid();
+            final LocalPlayer player = Minecraft.getInstance().player;
+            if (player == null) { // Shouldn't happen, but just in case
+                json.add("accountLocations", new JsonArray());
+                return json.toString();
+            }
+            final GameProfile profile = player.connection.getLocalGameProfile();
+            playerName = profile.getName();
+            playerUuid = profile.getId().toString();
         }
 
         Iterables.removeIf(json.getAsJsonArray("accountLocations"), (element) -> {
