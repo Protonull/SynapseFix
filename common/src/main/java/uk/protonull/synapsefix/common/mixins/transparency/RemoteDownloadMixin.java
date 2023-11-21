@@ -6,6 +6,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.util.UUID;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.TextComponent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,9 +22,17 @@ import uk.protonull.synapsefix.common.tasks.transparency.RemoteDownloadTasks;
 import uk.protonull.synapsefix.common.utilities.Shortcuts;
 import uk.protonull.synapsefix.common.utilities.SynapseIntegrations;
 
-@Mixin(value = SynapseMod.class, remap = false)
+@Mixin(
+        value = SynapseMod.class,
+        remap = false
+)
 public abstract class RemoteDownloadMixin {
-    @ModifyVariable(method = "installUpdate", at = @At("HEAD"), argsOnly = true, ordinal = 0)
+    @ModifyVariable(
+            method = "installUpdate",
+            at = @At("HEAD"),
+            argsOnly = true,
+            ordinal = 0
+    )
     private InputStream INJECT_installUpdate(
             final InputStream inputStream
     ) {
@@ -113,6 +128,22 @@ public abstract class RemoteDownloadMixin {
                         thrown
                 ));
             }
+
+            // Notify the user whenever a new Synapse jar is downloaded
+            Minecraft.getInstance().gui.handleChat(
+                    ChatType.SYSTEM,
+                    new TextComponent("New Synapse Version!")
+                            .withStyle(ChatFormatting.UNDERLINE)
+                            .withStyle((style) -> style.withHoverEvent(new HoverEvent(
+                                    HoverEvent.Action.SHOW_TEXT,
+                                    new TextComponent("Click to view: " + decompileDir.getAbsolutePath())
+                            )))
+                            .withStyle((style) -> style.withClickEvent(new ClickEvent(
+                                    ClickEvent.Action.OPEN_URL,
+                                    decompileDir.getAbsolutePath()
+                            ))),
+                    new UUID(0L, 0L)
+            );
         }
 
         return new ByteArrayInputStream(jarBytes);
